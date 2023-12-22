@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" rel="stylesheet">
+    <link href="/wro4j/commons.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+
+<div th:fragment="user-summary" class="tooltip">
+
+    <span th:text="${name}"></span>
+    <hr/>
+    <span>Total articles: <span th:text="${stat.numArticle}"></span></span>
+    <span>Total comments: <span th:text="${stat.numComments}"></span></span>
+    <span>Rating: <span th:text="${stat.userRating}"></span></span>
+
+
+</div>
+
+</body>
+</html>
+

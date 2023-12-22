@@ -1,0 +1,41 @@
+version: '3'
+services:
+    activemq_artemis:
+        image: 'jhatdv/activemq-artemis:2.19.1-alpine'
+        container_name: activemqArtemis
+        environment:
+            - ARTEMIS_USERNAME=admin
+            - ARTEMIS_PASSWORD=admin
+        ports:
+            - 8161:8161  # use this to login
+            - 61616:61616
+        networks:
+            - seedappnet
+    mysql:
+        image: 'mysql:8.0.30'
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=seedapp
+        ports:
+            - 3306:3306
+        command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+        networks:
+            - seedappnet
+    emailhog:
+        image: 'mailhog/mailhog'
+        container_name: mailhog
+        ports:
+            - 1025:1025
+        networks:
+            - seedappnet
+volumes:
+    esdata1:
+        driver: local
+networks:
+    seedappnet:
+        driver: bridge
+
+
+#run using
+#docker-compose -f docker-compose.yml up
+# or just docker-compose up

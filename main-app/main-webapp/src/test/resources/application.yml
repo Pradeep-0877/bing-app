@@ -1,0 +1,64 @@
+spring:
+    application:
+        name: Integration Test
+    profiles:
+        active: test
+    liquibase:
+        enabled: true
+        change-log: classpath:/liquibase/master.xml
+    datasource:
+        url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+    jpa:
+        show-sql: false
+        open-in-view: false
+        hibernate:
+            ddl-auto: none  # we use liquibase
+            naming:
+                physical-strategy: gt.app.hibernate.PrefixedNamingStrategy
+                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    mvc:
+        static-path-pattern: /static/**
+    jooq:
+        sql-dialect: H2
+    main:
+        banner-mode: off
+
+    artemis:
+        broker-url: tcp://${ACTIVEMQ_ARTEMIS_HOST:localhost}:${ACTIVEMQ_ARTEMIS_PORT:61616}
+        user: admin
+        password: admin
+
+springdoc:
+    swagger-ui:
+        enabled: false
+
+debug: false
+
+logging.level:
+    ROOT: WARN
+    gt: INFO
+    sql: WARN
+    org.apache: ERROR
+#    net.ttddyy.dsproxy.listener.logging: DEBUG  # uncomment to see the queries with params
+
+app-properties:
+    file-storage:
+        upload-folder: ${java.io.tmpdir}/uploads
+    jms:
+        content-checkerrequest-queue: jms-content-checker-requestqueue
+        content-checkercallback-response-queue: jms-content-checkercallback-responsequeue
+
+
+feign-clients:
+    email-service:
+        url: http://localhost:00/  #TODO: find a better way to handle this
+
+# enabled for test to assert query counts
+decorator:
+    datasource:
+        enabled: true
+        datasource-proxy:
+            slow-query:
+                threshold: 1
+            query:
+                log-level: INFO

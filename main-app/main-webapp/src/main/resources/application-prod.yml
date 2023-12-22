@@ -1,0 +1,9 @@
+spring:
+    thymeleaf:
+        cache: true
+    web:
+        resources:
+            cache:
+                period: PT10H
+            chain:
+                cache: true
